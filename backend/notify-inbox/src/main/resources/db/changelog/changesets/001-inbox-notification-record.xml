@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="001-1" author="notificator">
+        <comment>Create schema inbox and table notification_record</comment>
+        <sql>CREATE SCHEMA IF NOT EXISTS inbox;</sql>
+        <createTable schemaName="inbox" tableName="notification_record">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_inbox_notification_record"/>
+            </column>
+            <column name="notification_id" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="channel" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="read_at" type="TIMESTAMP"/>
+        </createTable>
+        <addUniqueConstraint schemaName="inbox" tableName="notification_record"
+            columnNames="notification_id" constraintName="uq_inbox_notification_record_notification_id"/>
+        <createIndex schemaName="inbox" tableName="notification_record" indexName="ix_inbox_notification_record_user_created">
+            <column name="user_id"/>
+            <column name="created_at" descending="true"/>
+        </createIndex>
+        <createIndex schemaName="inbox" tableName="notification_record" indexName="ix_inbox_notification_record_user_id">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,19 @@
+quarkus:
+  http:
+    port: 8080
+  smallrye-openapi:
+    path: /q/openapi
+    info-title: Notification Ingest API
+    info-version: 1.0.0
+    info-description: API для приёма запросов на отправку уведомлений
+  swagger-ui:
+    path: /q/swagger-ui
+
+app:
+  notify:
+    topic: notify.p0
+
+# Kafka (понадобится при замене мока на реальный адаптер)
+# kafka:
+#   bootstrap:
+#     servers: localhost:9092

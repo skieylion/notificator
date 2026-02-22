@@ -16,7 +16,7 @@
     <name>Integration Tests</name>
 
     <properties>
-        <base.url>http://notification-router:8080</base.url>
+        <base.url>http://notify-ingest:8080</base.url>
     </properties>
 
     <dependencies>

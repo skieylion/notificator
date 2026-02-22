@@ -10,10 +10,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>notification-router</artifactId>
+    <artifactId>notify-ingest</artifactId>
     <packaging>jar</packaging>
 
-    <name>Notification Router</name>
+    <name>Notify Ingest</name>
 
     <dependencies>
         <dependency>

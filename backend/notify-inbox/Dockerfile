@@ -5,13 +5,17 @@ WORKDIR /build
 COPY mvnw ./
 COPY .mvn ./.mvn
 COPY pom.xml ./
-COPY common ./common
-COPY notify-inbox ./notify-inbox
-COPY notification-router/pom.xml ./notification-router/
+COPY common/pom.xml ./common/
+COPY notify-ingest/pom.xml ./notify-ingest/
+COPY notify-inbox/pom.xml ./notify-inbox/
 COPY integration-tests/pom.xml ./integration-tests/
 
 RUN ./mvnw -B dependency:go-offline -pl notify-inbox -am
-RUN ./mvnw -B package -pl notify-inbox -am -DskipTests
+
+COPY common ./common
+COPY notify-inbox ./notify-inbox
+
+RUN ./mvnw -B clean package -pl notify-inbox -am -DskipTests
 
 # Run stage
 FROM eclipse-temurin:21-jre-alpine

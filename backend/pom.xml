@@ -23,7 +23,7 @@
 
     <modules>
         <module>common</module>
-        <module>notification-router</module>
+        <module>notify-ingest</module>
         <module>notify-inbox</module>
         <module>integration-tests</module>
     </modules>

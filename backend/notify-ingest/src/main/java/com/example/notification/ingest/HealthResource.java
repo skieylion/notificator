@@ -1,4 +1,4 @@
-package com.example.notification.router;
+package com.example.notification.ingest;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

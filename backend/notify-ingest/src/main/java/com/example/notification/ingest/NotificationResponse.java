@@ -1,4 +1,4 @@
-package com.example.notification.router;
+package com.example.notification.ingest;
 
 public class NotificationResponse {
 

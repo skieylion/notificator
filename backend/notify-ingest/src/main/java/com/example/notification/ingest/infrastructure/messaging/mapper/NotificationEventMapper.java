@@ -11,7 +11,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "jakarta")
+@Mapper(componentModel = "spring")
 public interface NotificationEventMapper {
 
     default NotificationEventPayload toPayload(NotificationEvent event) {

@@ -1,19 +1,29 @@
-quarkus:
-  http:
-    port: 8080
-  smallrye-openapi:
-    path: /q/openapi
-    info-title: Notification Ingest API
-    info-version: 1.0.0
-    info-description: API для приёма запросов на отправку уведомлений
+server:
+  port: 8080
+
+spring:
+  application:
+    name: notify-ingest
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
   swagger-ui:
-    path: /q/swagger-ui
+    path: /swagger-ui.html
+  info:
+    title: Notification Ingest API
+    version: 1.0.0
+    description: API для приёма запросов на отправку уведомлений
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
 
 app:
   notify:
     topic: notify.p0
-
-# Kafka (понадобится при замене мока на реальный адаптер)
-# kafka:
-#   bootstrap:
-#     servers: localhost:9092

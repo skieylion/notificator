@@ -9,25 +9,27 @@ import com.example.notification.ingest.infrastructure.messaging.dto.Notification
 import com.example.notification.ingest.infrastructure.messaging.mapper.NotificationEventMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.enterprise.context.ApplicationScoped;
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Мок-реализация публикации уведомлений.
  * Реальный Kafka-клиент будет подключён на следующих этапах.
  */
-@Slf4j
-@ApplicationScoped
+@Component
 public class KafkaNotificationPublisher implements NotificationPublisherPort,
         EventPublisher<NotificationEvent> {
+
+    private static final Logger log = LoggerFactory.getLogger(KafkaNotificationPublisher.class);
 
     private final String topic;
     private final ObjectMapper objectMapper;
     private final NotificationEventMapper eventMapper;
 
     public KafkaNotificationPublisher(
-            @ConfigProperty(name = "app.notify.topic", defaultValue = Constants.NOTIFY_TOPIC)
+            @Value("${app.notify.topic:" + Constants.NOTIFY_TOPIC + "}")
             String topic,
             ObjectMapper objectMapper,
             NotificationEventMapper eventMapper

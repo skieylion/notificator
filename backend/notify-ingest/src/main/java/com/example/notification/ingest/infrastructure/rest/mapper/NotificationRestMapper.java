@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "jakarta")
+@Mapper(componentModel = "spring")
 public interface NotificationRestMapper {
 
     @Mapping(target = "id", expression = "java(generateId())")

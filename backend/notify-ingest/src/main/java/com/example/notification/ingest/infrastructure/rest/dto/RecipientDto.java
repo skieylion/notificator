@@ -1,17 +1,11 @@
 package com.example.notification.ingest.infrastructure.rest.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Schema(description = "Получатель уведомления")
 public class RecipientDto {
 
@@ -20,6 +14,52 @@ public class RecipientDto {
 
     @NotEmpty(message = "contacts must contain at least one element")
     @Valid
-    @Schema(description = "Контакты получателя (минимум один)", required = true)
+    @Schema(description = "Контакты получателя (минимум один)", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<ContactDto> contacts;
+
+    public RecipientDto() {}
+
+    public RecipientDto(String locale, List<ContactDto> contacts) {
+        this.locale = locale;
+        this.contacts = contacts;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public List<ContactDto> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<ContactDto> contacts) {
+        this.contacts = contacts;
+    }
+
+    public static RecipientDtoBuilder builder() {
+        return new RecipientDtoBuilder();
+    }
+
+    public static class RecipientDtoBuilder {
+        private String locale;
+        private List<ContactDto> contacts;
+
+        public RecipientDtoBuilder locale(String locale) {
+            this.locale = locale;
+            return this;
+        }
+
+        public RecipientDtoBuilder contacts(List<ContactDto> contacts) {
+            this.contacts = contacts;
+            return this;
+        }
+
+        public RecipientDto build() {
+            return new RecipientDto(locale, contacts);
+        }
+    }
 }

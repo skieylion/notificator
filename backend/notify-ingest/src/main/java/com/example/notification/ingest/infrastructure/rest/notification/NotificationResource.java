@@ -12,27 +12,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/notifications", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Notifications", description = "Приём запросов на отправку уведомлений")
+@RequiredArgsConstructor
 public class NotificationResource {
-
-    private static final Logger log = LoggerFactory.getLogger(NotificationResource.class);
 
     private final AcceptNotificationPort acceptNotificationPort;
     private final NotificationRestMapper mapper;
-
-    public NotificationResource(AcceptNotificationPort acceptNotificationPort, NotificationRestMapper mapper) {
-        this.acceptNotificationPort = acceptNotificationPort;
-        this.mapper = mapper;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
@@ -58,13 +53,11 @@ public class NotificationResource {
             @Valid @RequestBody NotificationRequestDto requestDto
     ) {
         return Mono.fromCallable(() -> {
-            // Validate idempotency key
             if (idempotencyKey == null || idempotencyKey.isBlank()) {
                 log.warn("Missing or empty X-Idempotency-Key header");
                 throw new IllegalArgumentException("X-Idempotency-Key header is required");
             }
 
-            // Map to event and process
             NotificationEvent event = mapper.toEvent(requestDto, idempotencyKey);
             IngestResult result = acceptNotificationPort.accept(event);
             NotificationResponseDto response = mapper.toResponse(event.getId(), result);
